@@ -6,7 +6,7 @@ public class Task1 {
         return 1;
     }
     
-    public static void Main(String[] args) {
+    public static void main(String[] args) {
         int one = give_me_one();
         int two = one * 2;
         System.out.println(two);
