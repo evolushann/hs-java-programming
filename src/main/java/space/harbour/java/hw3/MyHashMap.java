@@ -127,6 +127,10 @@ public class MyHashMap<K, V> implements Map<K, V> {
                     V val = e.getValue();
                     ll.remove(e);
                     size --;
+
+                    if(ll.size() == 1)
+                        list[hash] = ll.getFirst();
+
                     return val;
                 }
             }
@@ -224,8 +228,10 @@ public class MyHashMap<K, V> implements Map<K, V> {
         mhm.put("key", "another value");
         System.out.println(mhm.get("key"));
         mhm.put("omg", "wow");
+        System.out.println(mhm.size());
         System.out.println(mhm.toString());
         mhm.remove("key");
+        System.out.println(mhm.size());
         System.out.println(mhm.toString());
         System.out.println(mhm.get("omg"));
     }
