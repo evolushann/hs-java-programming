@@ -67,10 +67,12 @@ public class MyHashMap<K, V> implements Map<K, V> {
         int hash = key.hashCode() % BUCKET_SIZE;
         
         if(buckets[hash] != null) {
-            if(buckets[hash] instanceof Element)
-                return ((Element<K, V>) buckets[hash]).getValue();
+            if(buckets[hash] instanceof Element) {
+                Element<K, V> e = (Element<K, V>) buckets[hash];
 
-            else if(buckets[hash] instanceof LinkedList) {
+                if(e.getKey().equals(key))
+                    return e.getValue();
+            } else if(buckets[hash] instanceof LinkedList) {
                 LinkedList<Element<K, V>> ll = (LinkedList<Element<K, V>>) buckets[hash];
 
                 for(Element<K, V> e : ll) {
@@ -97,9 +99,8 @@ public class MyHashMap<K, V> implements Map<K, V> {
             buckets[hash] = l;
         }
 
-        else if(buckets[hash] instanceof LinkedList) {
+        else if(buckets[hash] instanceof LinkedList)
             ((LinkedList<Element<K, V>>) buckets[hash]).add(new Element<K, V>(key, value));
-        }
 
         size ++;
         return value;
@@ -112,10 +113,10 @@ public class MyHashMap<K, V> implements Map<K, V> {
             return null;
 
         if(buckets[hash] instanceof Element) {
-            Element<K, V> element = (Element<K, V>) buckets[hash];
+            Element<K, V> e = (Element<K, V>) buckets[hash];
 
-            if(element.getKey().equals(key)) {
-                V val = element.getValue();
+            if(e.getKey().equals(key)) {
+                V val = e.getValue();
                 buckets[hash] = null;
                 size --;
                 return val;
