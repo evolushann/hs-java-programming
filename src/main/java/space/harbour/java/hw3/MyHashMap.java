@@ -8,7 +8,8 @@ import java.util.HashSet;
 
 public class MyHashMap<K, V> implements Map<K, V> {
     private int size = 0;
-    private Object[] list = new Object[10];
+    private final int BUCKET_SIZE = 10;
+    private Object[] buckets = new Object[BUCKET_SIZE];
 
     public int size() {
         return size;
@@ -19,17 +20,17 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     public boolean containsKey(Object key) {
-        int hash = key.hashCode() % 10;
-        if(list[hash] == null)
+        int hash = key.hashCode() % BUCKET_SIZE;
+        if(buckets[hash] == null)
             return false;
         
-        if(list[hash] instanceof Element) {
-            Element<K, V> e = ((Element<K, V>) list[hash]);
+        if(buckets[hash] instanceof Element) {
+            Element<K, V> e = ((Element<K, V>) buckets[hash]);
 
             if(e.getKey().equals(key))
                 return true;
-        } else if(list[hash] instanceof LinkedList) {
-            LinkedList<Element<K, V>> ll = ((LinkedList<Element<K, V>>) list[hash]);
+        } else if(buckets[hash] instanceof LinkedList) {
+            LinkedList<Element<K, V>> ll = ((LinkedList<Element<K, V>>) buckets[hash]);
             
             for(Element<K, V> e : ll) {
                 if(e.getKey().equals(key))
@@ -41,15 +42,15 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     public boolean containsValue(Object value) {
-        for(int i = 0; i < 10; i ++) {
-            if(list[i] != null) {
-                if(list[i] instanceof Element) {
-                    Element<K, V> e = ((Element<K, V>) list[i]);
+        for(int i = 0; i < BUCKET_SIZE; i ++) {
+            if(buckets[i] != null) {
+                if(buckets[i] instanceof Element) {
+                    Element<K, V> e = ((Element<K, V>) buckets[i]);
         
                     if(e.getValue().equals(value))
                         return true;
-                } else if(list[i] instanceof LinkedList) {
-                    LinkedList<Element<K, V>> ll = ((LinkedList<Element<K, V>>) list[i]);
+                } else if(buckets[i] instanceof LinkedList) {
+                    LinkedList<Element<K, V>> ll = ((LinkedList<Element<K, V>>) buckets[i]);
                     
                     for(Element<K, V> e : ll) {
                         if(e.getValue().equals(value))
@@ -63,14 +64,14 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     public V get(Object key) {
-        int hash = key.hashCode() % 10;
+        int hash = key.hashCode() % BUCKET_SIZE;
         
-        if(list[hash] != null) {
-            if(list[hash] instanceof Element)
-                return ((Element<K, V>) list[hash]).getValue();
+        if(buckets[hash] != null) {
+            if(buckets[hash] instanceof Element)
+                return ((Element<K, V>) buckets[hash]).getValue();
 
-            else if(list[hash] instanceof LinkedList) {
-                LinkedList<Element<K, V>> ll = (LinkedList<Element<K, V>>) list[hash];
+            else if(buckets[hash] instanceof LinkedList) {
+                LinkedList<Element<K, V>> ll = (LinkedList<Element<K, V>>) buckets[hash];
 
                 for(Element<K, V> e : ll) {
                     if(e.getKey().equals(key))
@@ -83,21 +84,21 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     public V put(K key, V value) {
-        int hash = key.hashCode() % 10;
+        int hash = key.hashCode() % BUCKET_SIZE;
 
-        if(list[hash] == null)
-            list[hash] = new Element<K,V>(key, value);
+        if(buckets[hash] == null)
+            buckets[hash] = new Element<K,V>(key, value);
 
-        else if(list[hash] instanceof Element) {
-            Element<K, V> e = (Element<K, V>) list[hash];
+        else if(buckets[hash] instanceof Element) {
+            Element<K, V> e = (Element<K, V>) buckets[hash];
             LinkedList<Element<K, V>> l = new LinkedList<Element<K, V>>();
             l.add(e);
             l.add(new Element<K, V>(key, value));
-            list[hash] = l;
+            buckets[hash] = l;
         }
 
-        else if(list[hash] instanceof LinkedList) {
-            ((LinkedList<Element<K, V>>) list[hash]).add(new Element<K, V>(key, value));
+        else if(buckets[hash] instanceof LinkedList) {
+            ((LinkedList<Element<K, V>>) buckets[hash]).add(new Element<K, V>(key, value));
         }
 
         size ++;
@@ -105,23 +106,23 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     public V remove(Object key) {
-        int hash = key.hashCode() % 10;
+        int hash = key.hashCode() % BUCKET_SIZE;
 
-        if(list[hash] == null)
+        if(buckets[hash] == null)
             return null;
 
-        if(list[hash] instanceof Element) {
-            Element<K, V> element = (Element<K, V>) list[hash];
+        if(buckets[hash] instanceof Element) {
+            Element<K, V> element = (Element<K, V>) buckets[hash];
 
             if(element.getKey().equals(key)) {
                 V val = element.getValue();
-                list[hash] = null;
+                buckets[hash] = null;
                 size --;
                 return val;
             }
-        } else if(list[hash] instanceof LinkedList) {
-            LinkedList<Element<K, V>> ll = (LinkedList<Element<K, V>>) list[hash];
-            
+        } else if(buckets[hash] instanceof LinkedList) {
+            LinkedList<Element<K, V>> ll = (LinkedList<Element<K, V>>) buckets[hash];
+
             for(Element<K, V> e : ll) {
                 if(e.getKey().equals(key)) {
                     V val = e.getValue();
@@ -129,7 +130,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
                     size --;
 
                     if(ll.size() == 1)
-                        list[hash] = ll.getFirst();
+                        buckets[hash] = ll.getFirst();
 
                     return val;
                 }
@@ -144,19 +145,19 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     public void clear() {
-        list = new Object[10];
+        buckets = new Object[BUCKET_SIZE];
         size = 0;
     }
 
     public Set<K> keySet() {
         Set<K> set = new HashSet<K>();
-        for(int i = 0; i < 10; i ++) {
-            if(list[i] != null) {
-                if(list[i] instanceof Element)
-                    set.add(((Element<K, V>) list[i]).getKey());
+        for(int i = 0; i < BUCKET_SIZE; i ++) {
+            if(buckets[i] != null) {
+                if(buckets[i] instanceof Element)
+                    set.add(((Element<K, V>) buckets[i]).getKey());
 
-                else if(list[i] instanceof LinkedList) {
-                    for(Element<K, V> e : ((LinkedList<Element<K, V>>) list[i]))
+                else if(buckets[i] instanceof LinkedList) {
+                    for(Element<K, V> e : ((LinkedList<Element<K, V>>) buckets[i]))
                         set.add(e.getKey());
                 }
             }
@@ -167,13 +168,13 @@ public class MyHashMap<K, V> implements Map<K, V> {
     public Collection<V> values() {
         Collection<V> collection = new LinkedList<V>();
 
-        for(int i = 0; i < 10; i ++) {
-            if(list[i] != null) {
-                if(list[i] instanceof Element)
-                    collection.add(((Element<K, V>) list[i]).getValue());
+        for(int i = 0; i < BUCKET_SIZE; i ++) {
+            if(buckets[i] != null) {
+                if(buckets[i] instanceof Element)
+                    collection.add(((Element<K, V>) buckets[i]).getValue());
 
-                else if(list[i] instanceof LinkedList) {
-                    for(Element<K, V> e : ((LinkedList<Element<K, V>>) list[i]))
+                else if(buckets[i] instanceof LinkedList) {
+                    for(Element<K, V> e : ((LinkedList<Element<K, V>>) buckets[i]))
                         collection.add(e.getValue());
                 }
             }
@@ -183,34 +184,36 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     public Set<Entry<K, V>> entrySet() {
-		Set<Entry<K, V>> set = new HashSet<Entry<K, V>>();
-        for(int i = 0; i < 10; i ++) {
-            if(list[i] != null) {
-                if(list[i] instanceof Element)
-                    set.add((Element<K, V>) list[i]);
+        Set<Entry<K, V>> set = new HashSet<Entry<K, V>>();
+        
+        for(int i = 0; i < BUCKET_SIZE; i ++) {
+            if(buckets[i] != null) {
+                if(buckets[i] instanceof Element)
+                    set.add((Element<K, V>) buckets[i]);
 
-                else if(list[i] instanceof LinkedList) {
-                    for(Element<K, V> e : ((LinkedList<Element<K, V>>) list[i]))
+                else if(buckets[i] instanceof LinkedList) {
+                    for(Element<K, V> e : ((LinkedList<Element<K, V>>) buckets[i]))
                         set.add(e);
                 }
             }
         }
+
         return set;
     }
     
     public String toString() {
         String ret = "{\n";
 
-        for(int i = 0; i < 10; i ++) {
+        for(int i = 0; i < BUCKET_SIZE; i ++) {
             ret += i + ": ";
-            if(list[i] != null) {
-                if(list[i] instanceof Element) {
-                    Element<K, V> e = (Element<K, V>) list[i];
+            if(buckets[i] != null) {
+                if(buckets[i] instanceof Element) {
+                    Element<K, V> e = (Element<K, V>) buckets[i];
                     ret += "[" + e.getKey() + ": " + e.getValue() + "]\n";
-                } else if(list[i] instanceof LinkedList) {
+                } else if(buckets[i] instanceof LinkedList) {
                     ret += "[";
 
-                    for(Element<K, V> e : ((LinkedList<Element<K, V>>) list[i]))
+                    for(Element<K, V> e : ((LinkedList<Element<K, V>>) buckets[i]))
                         ret += e.getKey() + ": " + e.getValue() + ", ";
 
                     ret += "]\n";
@@ -234,5 +237,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
         System.out.println(mhm.size());
         System.out.println(mhm.toString());
         System.out.println(mhm.get("omg"));
+        mhm.clear();
+        System.out.println(mhm.isEmpty());
     }
 }
