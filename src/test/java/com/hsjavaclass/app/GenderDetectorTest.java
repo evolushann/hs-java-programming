@@ -1,18 +1,20 @@
 package com.hsjavaclass.app;
 
 import junit.framework.TestCase;
-import org.junit.jupiter.api.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class GenderDetectorTest extends TestCase {
     GenderDetector detector;
 
-    @BeforeAll
+    @Before
     public void setUp() throws Exception {
         super.setUp();
         detector = new GenderDetector();
     }
 
-    @AfterAll
+    @After
     public void tearDown() throws Exception {
         detector = null;
     }
