@@ -20,7 +20,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     public boolean containsKey(Object key) {
-        int hash = key.hashCode() % BUCKET_SIZE;
+        int hash = Math.abs(key.hashCode() % BUCKET_SIZE);
         if(buckets[hash] == null)
             return false;
         
@@ -64,7 +64,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     public V get(Object key) {
-        int hash = key.hashCode() % BUCKET_SIZE;
+        int hash = Math.abs(key.hashCode() % BUCKET_SIZE);
         
         if(buckets[hash] != null) {
             if(buckets[hash] instanceof Element) {
@@ -86,7 +86,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     public V put(K key, V value) {
-        int hash = key.hashCode() % BUCKET_SIZE;
+        int hash = Math.abs(key.hashCode() % BUCKET_SIZE);
 
         if(buckets[hash] == null)
             buckets[hash] = new Element<K,V>(key, value);
@@ -107,7 +107,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     public V remove(Object key) {
-        int hash = key.hashCode() % BUCKET_SIZE;
+        int hash = Math.abs(key.hashCode() % BUCKET_SIZE);
 
         if(buckets[hash] == null)
             return null;
@@ -224,21 +224,5 @@ public class MyHashMap<K, V> implements Map<K, V> {
             }
         }
         return ret + "}";
-    }
-    
-    public static void main(String[] args) {
-        MyHashMap<String, String> mhm = new MyHashMap<>();
-        mhm.put("key", "value");
-        mhm.put("key", "another value");
-        System.out.println(mhm.get("key"));
-        mhm.put("omg", "wow");
-        System.out.println(mhm.size());
-        System.out.println(mhm.toString());
-        mhm.remove("key");
-        System.out.println(mhm.size());
-        System.out.println(mhm.toString());
-        System.out.println(mhm.get("omg"));
-        mhm.clear();
-        System.out.println(mhm.isEmpty());
     }
 }
