@@ -12,7 +12,7 @@ class MyHashMapTest extends TestCase {
 	private MyHashMap<String, String> map;
 
 	@Before
-	public void init() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 	}
 
