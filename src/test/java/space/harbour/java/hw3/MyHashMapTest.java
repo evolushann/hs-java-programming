@@ -1,26 +1,12 @@
 package space.harbour.java.hw3;
 
-import junit.framework.TestCase;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MyHashMapTest extends TestCase {
+class MyHashMapTest {
 	private MyHashMap<String, String> map;
-
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		map = null;
-		super.tearDown();
-	}
 
 	@Test
 	void testSize_empty() {
