@@ -21,7 +21,7 @@ public class GenderDetectorTest extends TestCase {
     
     @Test
     public void testDetectGenderByName() {
-        String gender = detector.detectGenderByName("John");
+        String gender = detector.detectGenderByName("Mary");
         assertEquals("female", gender);
     }
 
