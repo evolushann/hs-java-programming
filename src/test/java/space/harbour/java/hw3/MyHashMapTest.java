@@ -1,31 +1,42 @@
 package space.harbour.java.hw3;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
+import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class MyHashMapTest {
+public class MyHashMapTest extends TestCase {
 	private MyHashMap<String, String> map;
 
-	@Test
-	void testSize_empty() {
-		map = new MyHashMap<>();
+	public MyHashMapTest() {
+		super(String.valueOf(MyHashMap.class));
+	}
 
+	@Before
+	public void setUp() throws Exception {
+		super.setUp();
+		map = new MyHashMap<>();
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		super.tearDown();
+	}
+
+	@Test
+	public void testSize_empty() {
 		assertEquals(0, map.size());
 	}
 
 	@Test
-	void testSize_notEmpty() {
-		map = new MyHashMap<>();
+	public void testSize_notEmpty() {
 		map.put("name", "bob");
 
 		assertEquals(1, map.size());
 	}
 
 	@Test
-	void testSize_withCollisions() {
-		map = new MyHashMap<>();
+	public void testSize_withCollisions() {
 		map.put("name", "bob");
 		map.put("name", "vagene");
 
@@ -33,8 +44,7 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testSize_noCollisions() {
-		map = new MyHashMap<>();
+	public void testSize_noCollisions() {
 		map.put("name", "bob");
 		map.put("hello", "world");
 
@@ -42,15 +52,12 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testIsEmpty_empty() {
-		map = new MyHashMap<>();
-
+	public void testIsEmpty_empty() {
 		assertTrue(map.isEmpty());
 	}
 
 	@Test
-	void testIsEmpty_noCollision() {
-		map = new MyHashMap<>();
+	public void testIsEmpty_noCollision() {
 		map.put("name", "bob");
 		map.put("hello", "world");
 
@@ -58,8 +65,7 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testIsEmpty_withCollision() {
-		map = new MyHashMap<>();
+	public void testIsEmpty_withCollision() {
 		map.put("name", "bob");
 		map.put("name", "vagene");
 
@@ -67,23 +73,19 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testContainsKey_keyNotFound() {
-		map = new MyHashMap<>();
-
+	public void testContainsKey_keyNotFound() {
 		assertFalse(map.containsKey("name"));
 	}
 
 	@Test
-	void testContainsKey_singleKey() {
-		map = new MyHashMap<>();
+	public void testContainsKey_singleKey() {
 		map.put("name", "bob");
 
 		assertTrue(map.containsKey("name"));
 	}
 
 	@Test
-	void testContainsKey_multipleSameKeys() {
-		map = new MyHashMap<>();
+	public void testContainsKey_multipleSameKeys() {
 		map.put("name", "bob");
 		map.put("name", "vagene");
 
@@ -91,23 +93,19 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testContainsValue_valueNotFound() {
-		map = new MyHashMap<>();
-
+	public void testContainsValue_valueNotFound() {
 		assertFalse(map.containsValue("name"));
 	}
 
 	@Test
-	void testContainsValue_singleValue() {
-		map = new MyHashMap<>();
+	public void testContainsValue_singleValue() {
 		map.put("name", "bob");
 
 		assertTrue(map.containsValue("bob"));
 	}
 
 	@Test
-	void testContainsValue_multipleValues() {
-		map = new MyHashMap<>();
+	public void testContainsValue_multipleValues() {
 		map.put("name", "bob");
 		map.put("other name", "bob");
 
@@ -115,15 +113,12 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testGet_nonexistentKey() {
-		map = new MyHashMap<>();
-
+	public void testGet_nonexistentKey() {
 		assertNull(map.get("name"));
 	}
 
 	@Test
-	void testGet_singleKey() {
-		map = new MyHashMap<>();
+	public void testGet_singleKey() {
 		map.put("name", "bob");
 
 		assertNotNull(map.get("name"));
@@ -132,8 +127,7 @@ class MyHashMapTest {
 
 	// Should return first instance of key
 	@Test
-	void testGet_sameKey() {
-		map = new MyHashMap<>();
+	public void testGet_sameKey() {
 		map.put("name", "bob");
 		map.put("name", "vagene");
 
@@ -142,8 +136,7 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testGet_noCollision() {
-		map = new MyHashMap<>();
+	public void testGet_noCollision() {
 		map.put("name", "bob");
 		map.put("hello", "world");
 
@@ -152,8 +145,7 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testGet_withCollision() {
-		map = new MyHashMap<>();
+	public void testGet_withCollision() {
 		map.put("name", "bob");
 		map.put("name2", "vagene");
 
@@ -162,9 +154,7 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testPut_singlePair() {
-		map = new MyHashMap<>();
-
+	public void testPut_singlePair() {
 		assertTrue(map.isEmpty());
 
 		map.put("name", "bob");
@@ -176,20 +166,7 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testPut_nullKey() {
-		map = new MyHashMap<>();
-
-		assertTrue(map.isEmpty());
-
-		Executable putNull = () -> map.put(null, "bob");
-
-		assertThrows(NullPointerException.class, putNull);
-	}
-
-	@Test
-	void testPut_nullValue() {
-		map = new MyHashMap<>();
-
+	public void testPut_nullValue() {
 		assertTrue(map.isEmpty());
 
 		map.put("name", null);
@@ -201,9 +178,7 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testPut_noCollisions() {
-		map = new MyHashMap<>();
-
+	public void testPut_noCollisions() {
 		assertTrue(map.isEmpty());
 
 		map.put("name", "bob");
@@ -218,9 +193,7 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testPut_withCollisions() {
-		map = new MyHashMap<>();
-
+	public void testPut_withCollisions() {
 		assertTrue(map.isEmpty());
 
 		map.put("name", "bob");
@@ -235,23 +208,19 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testRemove_emptyMap() {
-		map = new MyHashMap<>();
-
+	public void testRemove_emptyMap() {
 		assertNull(map.remove("hello"));
 	}
 
 	@Test
-	void testRemove_keyNotFound() {
-		map = new MyHashMap<>();
+	public void testRemove_keyNotFound() {
 		map.put("name", "bob");
 
 		assertNull(map.remove("hello"));
 	}
 
 	@Test
-	void testRemove_noCollisions() {
-		map = new MyHashMap<>();
+	public void testRemove_noCollisions() {
 		map.put("name", "bob");
 		map.put("hello", "world");
 
@@ -262,8 +231,7 @@ class MyHashMapTest {
 
 	// Should remove first instance of key
 	@Test
-	void testRemove_sameKey() {
-		map = new MyHashMap<>();
+	public void testRemove_sameKey() {
 		map.put("name", "bob");
 		map.put("name", "vagene");
 
@@ -273,8 +241,7 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testRemove_withCollisions() {
-		map = new MyHashMap<>();
+	public void testRemove_withCollisions() {
 		map.put("name", "bob");
 		map.put("name2", "vagene");
 
@@ -284,9 +251,7 @@ class MyHashMapTest {
 	}
 
 	@Test
-	void testClear() {
-		map = new MyHashMap<>();
-
+	public void testClear() {
 		assertTrue(map.isEmpty());
 
 		map.put("name", "bob");
