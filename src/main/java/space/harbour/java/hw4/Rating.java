@@ -3,9 +3,18 @@ package space.harbour.java.hw4;
 import javax.json.*;
 
 public class Rating implements Jsonable {
-    public String source;
-    public String value;
-    public Integer votes;
+    private String source;
+    private String value;
+
+	public String getSource() {
+		return source;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	private Integer votes;
 
     public void fromJsonObject(JsonObject object) {
         this.source = object.getString("Source");

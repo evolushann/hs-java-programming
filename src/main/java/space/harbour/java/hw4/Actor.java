@@ -3,8 +3,8 @@ package space.harbour.java.hw4;
 import javax.json.*;
 
 public class Actor implements Jsonable {
-    public String name;
-    public String as;
+    private String name;
+    private String as;
 
     public void fromJsonObject(JsonObject object) {
         this.name = object.getString("Name");
@@ -23,4 +23,12 @@ public class Actor implements Jsonable {
             .add("As", as)
             .build();
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

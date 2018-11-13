@@ -3,7 +3,7 @@ package space.harbour.java.hw4;
 import javax.json.*;
 
 public class Director implements Jsonable{
-    public String name;
+    private String name;
 
     public void fromJsonObject(JsonObject object) {
         this.name = object.getString("Name");
@@ -20,4 +20,12 @@ public class Director implements Jsonable{
             .add("Name", name)
             .build();
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

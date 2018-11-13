@@ -6,21 +6,51 @@ import java.util.List;
 import java.nio.charset.Charset;
 import java.nio.file.*;
 
-public class BladeRunner implements Jsonable {
-    public String title;
-    public int year;
-    public String released;
-    public int runtime;
-    public String[] genres;
-    public Director director;
-    public Writer[] writers;
-    public Actor[] actors;
-    public String plot;
-    public String[] languages;
-    public String[] countries;
-    public String awards;
-    public String poster;
-    public Rating[] ratings;
+public class Movie implements Jsonable {
+    private String title;
+	private int year;
+    private String released;
+    private int runtime;
+    private String[] genres;
+    private Director director;
+    private Writer[] writers;
+    private Actor[] actors;
+    private String plot;
+    private String[] languages;
+    private String[] countries;
+    private String awards;
+    private String poster;
+    private Rating[] ratings;
+
+	public String getTitle() {
+		return title;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public int getRuntime() {
+		return runtime;
+	}
+
+	public Rating[] getRatings() {
+		return ratings;
+	}
+
+	public Director getDirector() {
+		return director;
+	}
+
+	public Actor[] getActors() {
+		return actors;
+	}
+
+	public String[] getGenres() {
+		return genres;
+	}
+
+
 
     @Override
     public String toJsonString() {
@@ -128,11 +158,11 @@ public class BladeRunner implements Jsonable {
         }
     }
 
-    public void readFile() {
+    public Movie readFile(String filename) {
         String json = "";
 
         try {
-            List<String> lines = Files.readAllLines(Paths.get("BladeRunner.json"), Charset.defaultCharset());
+            List<String> lines = Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
 
             for (String line : lines) {
                 json += line;
@@ -143,13 +173,7 @@ public class BladeRunner implements Jsonable {
 
         if(json.length() != 0)
             fromJson(json);
-    }
 
-    public static void main(String[] args) {
-        BladeRunner br = new BladeRunner();
-        
-        br.readFile();
-
-        System.out.println(br.toJsonString());
+        return this;
     }
 }

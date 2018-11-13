@@ -1,0 +1,34 @@
+{
+  "Title":"Raiders of the Lost Ark",
+  "Year":1981,
+  "Released":"12 Jun 1981",
+  "Runtime":115,
+  "Genres":["Action-Adventure", "Thriller", "Fantasy"],
+  "Director": {
+    "Name": "Steven Spielberg"
+  },
+  "Writers":[
+    {"Name": "Lawrence Kasdan", "Type": "screenplay"}
+  ],
+  "Actors":[
+    {"Name": "Harrison Ford", "As": "Indiana Jones"},
+    {"Name": "Karen Allen", "As": "Marion Ravenwood"},
+    {"Name": "Paul Freeman", "As": "Dr. René Belloq"}
+  ],
+  "Plot":"Epic tale in which an intrepid archaeologist tries to beat a band of Nazis to a unique religious relic which is central to their plans for world domination.",
+  "Languages": ["English", "German", "Spanish", "Hebrew", "French", "Arabic", "Nepali"],
+  "Countries":["USA", "Spain"],
+  "Awards":"Nominated for 9 Oscars. Winner of 5.",
+  "Poster":"https://en.wikipedia.org/wiki/Raiders_of_the_Lost_Ark#/media/File:Raiders_of_the_Lost_Ark.jpg",
+  "Ratings":[
+    {
+      "Source":"Internet Movie Database",
+      "Value":"8.5/10",
+      "Votes":602079
+    },
+    {
+      "Source":"Rotten Tomatoes",
+      "Value":"95%"
+    }
+  ]
+}
