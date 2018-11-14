@@ -7,6 +7,6 @@ public class Main {
 		atm.getNext().setNext(new TenEuroDispenser());
 		atm.getNext().getNext().setNext(new FiveEuroDispenser());
 
-		System.out.println(atm.withdraw(24));
+		atm.withdraw(24);
 	}
 }
