@@ -1,18 +1,23 @@
 package space.harbour.java.hw8;
 
+import space.harbour.java.hw9.Bank;
+
 import java.util.Iterator;
 
-public class ATM {
-	Dispenser atm;
+public abstract class ATM implements Cloneable {
+	Dispenser dispenser;
+	private Bank department;
 
-	public ATM() {
-		atm = new FiftyEuroDispenser();
-		TwentyEuroDispenser twenties = new TwentyEuroDispenser();
-		atm.setNext(twenties);
-		TenEuroDispenser tens = new TenEuroDispenser();
+	public ATM(Bank department) {
+		dispenser = new FiftyEuroDispenser(this);
+		TwentyEuroDispenser twenties = new TwentyEuroDispenser(this);
+		dispenser.setNext(twenties);
+		TenEuroDispenser tens = new TenEuroDispenser(this);
 		twenties.setNext(tens);
-		FiveEuroDispenser fives = new FiveEuroDispenser();
+		FiveEuroDispenser fives = new FiveEuroDispenser(this);
 		tens.setNext(fives);
+
+		this.department = department;
 	}
 
 	public void withdraw(int amount) {
@@ -21,12 +26,12 @@ public class ATM {
 		else if(amount > getBalance())
 			System.out.println("The ATM is broke.");
 		else
-			atm.withdraw(amount);
+			dispenser.withdraw(amount);
 	}
 
 	public int getBalance() {
 		int balance = 0;
-		Iterator<Dispenser> dispenserIterator = atm.getIterator();
+		Iterator<Dispenser> dispenserIterator = dispenser.getIterator();
 		while (dispenserIterator.hasNext()) {
 			Dispenser d = dispenserIterator.next();
 			balance += d.getDenomination() * d.getBills();
@@ -34,4 +39,10 @@ public class ATM {
 
 		return balance;
 	}
+
+	public void alert(Dispenser dispenser) {
+		department.alert(dispenser);
+	}
+
+	public abstract ATM clone();
 }

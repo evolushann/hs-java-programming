@@ -1,7 +1,7 @@
 package space.harbour.java.hw8;
 
 public class TenEuroDispenser extends Dispenser {
-	public TenEuroDispenser() {
-		super(10);
+	public TenEuroDispenser(ATM atm) {
+		super(10, atm);
 	}
 }
