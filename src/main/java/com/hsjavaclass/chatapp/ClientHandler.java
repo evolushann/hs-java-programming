@@ -8,7 +8,7 @@ public class ClientHandler extends Thread {
 	private final Socket client;
 	private final DataInputStream in;
 	private final DataOutputStream out;
-	private final String name;
+	public final String name;
 
 	public ClientHandler(ChatServer server, Socket socket) throws IOException {
 		this.server = server;
@@ -25,7 +25,7 @@ public class ClientHandler extends Thread {
 		try (client; in; out) {
 			while (true) {
 				if (in.available() > 0)
-					server.broadcast(name + ": " + in.readUTF());
+					server.broadcast(name, in.readUTF());
 			}
 		} catch (IOException e) {
 			server.clientDisconnected(this);
